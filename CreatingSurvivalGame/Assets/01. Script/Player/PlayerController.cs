@@ -29,6 +29,10 @@ public class PlayerController : MonoBehaviour
     private float currentPlayerSpeed = 0;
     public float jumpAmount = 2.5f;
 
+    [Header("Actions")]
+    public Action interactAction;
+    public Action<int> SelectSlotAction;
+
     [Header("GroundCheck")]
     [SerializeField] private float groundedOffset = -0.14f;
     [SerializeField] private float groundedRadius = 0.28f;
@@ -57,12 +61,17 @@ public class PlayerController : MonoBehaviour
     {
         playerInputs.Player.Enable();
         playerInputs.Player.Jump.performed += PlayerJump;
+        playerInputs.Player.Interact.performed += PlayerInteract;
+        playerInputs.Player.SelectSlot.performed += PlayerSelectSlot;
     }
 
     private void OnDisable()
     {
         playerInputs.Player.Jump.performed -= PlayerJump;
+        playerInputs.Player.Interact.performed -= PlayerInteract;
+        playerInputs.Player.SelectSlot.performed -= PlayerSelectSlot;
     }
+
 
     private void FixedUpdate()
     {
@@ -165,6 +174,32 @@ public class PlayerController : MonoBehaviour
         if (is_Ground == false) return;
         verticalVelocity = jumpAmount;
         animator.SetJump(true);
+    }
+
+    private void PlayerInteract(InputAction.CallbackContext context)
+    {
+        interactAction?.Invoke();
+    }
+
+    private void PlayerSelectSlot(InputAction.CallbackContext context)
+    {
+        string pressedKey = context.control.name;
+
+        switch (pressedKey)
+        {
+            case "1":
+                SelectSlotAction?.Invoke(1);
+                break;
+            case "2":
+                SelectSlotAction?.Invoke(2);
+                break;
+            case "3":
+                SelectSlotAction?.Invoke(3);
+                break;
+            default:
+                Debug.LogError("뭘 입력받은거야");
+                break;
+        }
     }
 
     private void CameraRotation()

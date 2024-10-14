@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: aba64859db876dd4fb24964d083a9f17, type: 3}
-  m_Name: Wood
+  m_Name: Ore_4
   m_EditorClassIdentifier: 
-  itemName: "\uD1B5\uB098\uBB34"
-  sprite: {fileID: 21300000, guid: 17612f04aac7a3641aa678ffbcdc3c33, type: 3}
+  itemName: "\uBE68\uAC04 \uBCF4\uC11D"
+  sprite: {fileID: 21300000, guid: 852bbde316996da4cb38b5b38f2994d0, type: 3}
   type: 0
   stackable: 1

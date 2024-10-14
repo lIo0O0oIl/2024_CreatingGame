@@ -12,5 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aba64859db876dd4fb24964d083a9f17, type: 3}
   m_Name: GoodWood
   m_EditorClassIdentifier: 
+  itemName: "\uAC00\uACF5\uB41C \uB098\uBB34"
   sprite: {fileID: 21300000, guid: dbda3e39430e69448a3ba93426ea9cb3, type: 3}
   type: 0
+  stackable: 1
