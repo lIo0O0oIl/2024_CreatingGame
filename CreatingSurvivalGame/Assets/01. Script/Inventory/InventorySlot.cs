@@ -20,4 +20,14 @@ public class InventorySlot : MonoBehaviour, IDropHandler
             item.afterDragTrm = transform;
         }
     }
+
+    public InventoryItem GetItemSO()
+    {
+        InventoryItem item = null;
+        if (transform.childCount > 0)
+        {
+            item = transform.GetComponentInChildren<InventoryItem>();
+        }
+        return item;
+    }
 }

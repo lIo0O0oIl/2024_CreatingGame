@@ -31,7 +31,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Actions")]
     public Action interactAction;
-    public Action<int> SelectSlotAction;
+    public Action<int> selectSlotAction;
 
     [Header("GroundCheck")]
     [SerializeField] private float groundedOffset = -0.14f;
@@ -188,13 +188,13 @@ public class PlayerController : MonoBehaviour
         switch (pressedKey)
         {
             case "1":
-                SelectSlotAction?.Invoke(1);
+                selectSlotAction?.Invoke(1);
                 break;
             case "2":
-                SelectSlotAction?.Invoke(2);
+                selectSlotAction?.Invoke(2);
                 break;
             case "3":
-                SelectSlotAction?.Invoke(3);
+                selectSlotAction?.Invoke(3);
                 break;
             default:
                 Debug.LogError("뭘 입력받은거야");
@@ -222,5 +222,11 @@ public class PlayerController : MonoBehaviour
         if (lfAngle < -360f) lfAngle += 360f;
         if (lfAngle > 360f) lfAngle -= 360f;            // 이걸 빼도 더해도 각도는 같음.
         return Mathf.Clamp(lfAngle, lfMin, lfMax);
+    }
+
+    public void InputActiveSetting(bool is_Active)
+    {
+        if (is_Active) playerInputs.Player.Enable();
+        else playerInputs.Player.Disable();
     }
 }

@@ -7,6 +7,7 @@ public class ItemSO : ScriptableObject
 {
     [Header("Game")]
     public string itemName;
+    public string description;
     public Sprite sprite;
     public ItmeType type;
     //public AddStatSO addStat;           // 장비면 장비 스텟 SO 넣어서 해주기.

@@ -20,12 +20,12 @@ public class PlayerUseTool : MonoBehaviour
 
     private void OnEnable()
     {
-        controller.SelectSlotAction += SelectSlot;
+        controller.selectSlotAction += SelectSlot;
     }
 
     private void OnDisable()
     {
-        controller.SelectSlotAction -= SelectSlot;
+        controller.selectSlotAction -= SelectSlot;
     }
 
     private void SelectSlot(int slotNum)

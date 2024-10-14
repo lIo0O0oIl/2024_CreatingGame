@@ -8,6 +8,7 @@ public class InventoryManager : MonoBehaviour
     [SerializeField] private InventorySlot[] inventorySlots;
     [SerializeField] private GameObject inventoryItemPrefab;
 
+    [Header("Editor")]
     public ItemSO commandAddItem;
 
     private void Update()
@@ -36,12 +37,11 @@ public class InventoryManager : MonoBehaviour
                 itemInSlot.RefreshCount();
                 return true;
             }
-
-            if (emptySlot != null)      // 아이템이 있던건 아니여서 빈 슬롯에 넣자.
-            {
-                SpawnNewItem(item, emptySlot);      // 빈 슬롯을 찾았다면
-                return true;
-            }
+        }
+        if (emptySlot != null)      // 아이템이 있던건 아니여서 빈 슬롯에 넣자.
+        {
+            SpawnNewItem(item, emptySlot);      // 빈 슬롯을 찾았다면
+            return true;
         }
         return false;
     }
@@ -51,5 +51,41 @@ public class InventoryManager : MonoBehaviour
         GameObject newItem = Instantiate(inventoryItemPrefab, slot.transform);
         InventoryItem inventoryItem = newItem.GetComponent<InventoryItem>();
         inventoryItem.InitItem(item);
+    }
+
+    public int ItemCoundCheck(ItemSO findItem)
+    {
+        int count = 0;
+        foreach (InventorySlot slot in inventorySlots)
+        {
+            InventoryItem inventoryItem = slot.GetItemSO();
+            if (inventoryItem != null && inventoryItem.item == findItem)
+            {
+                count += inventoryItem.count;
+            }
+        }
+
+        return count;
+    }
+
+    public void UseItem(ItemSO useItem, int count)
+    {
+        foreach (InventorySlot slot in inventorySlots)
+        {
+            InventoryItem inventoryItem = slot.GetItemSO();
+            if (inventoryItem != null && inventoryItem.item == useItem)
+            {
+                inventoryItem.count -= count;
+                if (inventoryItem.count <= 0)
+                {
+                    Destroy(inventoryItem.gameObject);      // 풀링하기!!
+                    count = Mathf.Abs(inventoryItem.count);
+                }
+                else
+                {
+                    inventoryItem.RefreshCount();
+                }
+            }
+        }
     }
 }
