@@ -68,15 +68,18 @@ public class InventoryManager : MonoBehaviour
         return count;
     }
 
-    public void UseItem(ItemSO useItem, int count)
+    public bool UseItem(ItemSO useItem, int count)
     {
+        bool useOk = false;
+
         foreach (InventorySlot slot in inventorySlots)
         {
             InventoryItem inventoryItem = slot.GetItemSO();
             if (inventoryItem != null && inventoryItem.item == useItem)
             {
+                useOk = true;
                 inventoryItem.count -= count;
-                if (inventoryItem.count <= 0)
+                if (inventoryItem.count <= 0)           // 지금 인벤토리에 있는 카운트가 0이거나 작으면
                 {
                     Destroy(inventoryItem.gameObject);      // 풀링하기!!
                     count = Mathf.Abs(inventoryItem.count);
@@ -84,8 +87,11 @@ public class InventoryManager : MonoBehaviour
                 else
                 {
                     inventoryItem.RefreshCount();
+                    break;
                 }
             }
         }
+
+        return useOk;
     }
 }

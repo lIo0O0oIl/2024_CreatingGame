@@ -10,6 +10,9 @@ public class PlayerUseTool : MonoBehaviour
     [SerializeField] private Image[] toolsSlot = new Image[3];      // index 쓰는거 잊지 말기
     [SerializeField] private Color selectedColor, nomalColor;
 
+    [Header("Attack")]
+    [SerializeField] private GameObject sword;
+
     private PlayerController controller;
 
     private void Awake()
@@ -33,5 +36,8 @@ public class PlayerUseTool : MonoBehaviour
         toolsSlot[currentSelectNum - 1].color = nomalColor;
         currentSelectNum = slotNum;
         toolsSlot[currentSelectNum - 1].color = selectedColor;
+
+        if (currentSelectNum == 3) sword.SetActive(true);
+        else sword.SetActive(false);
     }    
 }

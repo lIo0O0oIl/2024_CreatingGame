@@ -15,6 +15,6 @@ MonoBehaviour:
   itemName: "\uCF54\uC5B4\uC5F4\uC1E0"
   description: "\uCF54\uC5B4\uB97C \uAE30\uB3D9\uC2DC\uD0AC \uC218 \uC788\uB294 \uC5F4\uC1E0\uC785\uB2C8\uB2E4.
     \uCCAD\uCCA0\uC744 \uBAA8\uC544 \uC81C\uC791\uD569\uB2C8\uB2E4."
-  sprite: {fileID: 21300000, guid: 994397c8ddbdd084da984dc68f7f6902, type: 3}
+  sprite: {fileID: 21300000, guid: f5aaa023e8fd07c4aac60575a34ef564, type: 3}
   type: 0
   stackable: 1

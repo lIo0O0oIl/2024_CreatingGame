@@ -10,9 +10,9 @@ public interface IPlayerInteract
 public class PlayerInteractor : MonoBehaviour
 {
     [Header("Interact")]
-    [SerializeField] private float forwardOffset = 1;
-    [SerializeField] private float yOffset = 1;
-    [SerializeField] private float sphereRadius = 0.5f;
+    [SerializeField] private float forwardOffset = 1.5f;
+    [SerializeField] private float yOffset = 1.25f;
+    [SerializeField] private float sphereRadius = 0.25f;
     [SerializeField] private LayerMask interactLayer;
     private Collider[] colliderArray = new Collider[1];        // 1개만 받을거임.
     private bool is_colliderUse = false;

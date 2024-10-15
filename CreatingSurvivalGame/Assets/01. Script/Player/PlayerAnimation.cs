@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,6 +11,10 @@ public class PlayerAnimation : MonoBehaviour
     private readonly int groundedHash = Animator.StringToHash("Grounded");
     private readonly int freeFallHash = Animator.StringToHash("FreeFall");
     private readonly int motionSpeedHash = Animator.StringToHash("MotionSpeed");
+    private readonly int attackTriggerHash = Animator.StringToHash("Attack");
+    private readonly int deathHash = Animator.StringToHash("Death");
+
+    public event Action attackCheckEvent;
 
     private Animator animator;
 
@@ -41,6 +46,21 @@ public class PlayerAnimation : MonoBehaviour
     public void SetMotionSpeed(float motionSpeed)
     {
         animator.SetFloat(motionSpeedHash, motionSpeed);
+    }
+
+    public void SetAttackTrigger()
+    {
+        animator.SetTrigger(attackTriggerHash);
+    }
+
+    public void SetDeath(bool value)
+    {
+        animator.SetBool(deathHash, value);
+    }
+    
+    private void OnAttackCheck()
+    {
+        attackCheckEvent?.Invoke();
     }
 
     private void OnFootstep(AnimationEvent animationEvent)

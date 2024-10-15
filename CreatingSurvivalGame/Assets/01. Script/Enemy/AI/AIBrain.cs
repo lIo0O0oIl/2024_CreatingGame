@@ -12,10 +12,15 @@ public class AIBrain : MonoBehaviour
     [HideInInspector] public NavMeshAgent navAgent;
     [HideInInspector] public AIAnimation anim;
 
+    private BoxCollider myColider;
+
+    private bool is_Death = false;
+
     private void Awake()
     {
         navAgent = GetComponent<NavMeshAgent>();
         anim = GetComponent<AIAnimation>();
+        myColider = GetComponent<BoxCollider>();
 
         List<AIState> states = new List<AIState>();
         transform.Find("AI").GetComponentsInChildren<AIState>(states);
@@ -33,13 +38,26 @@ public class AIBrain : MonoBehaviour
 
     public void ChangeState(AIState nextState)
     {
-        currentState.OnExitState();
+        currentState?.OnExitState();
         currentState = nextState;
-        currentState.OnEnterState();
+        currentState?.OnEnterState();
     }
 
     private void Update()
     {
-        currentState.UpdateState();
+        currentState?.UpdateState();
+    }
+
+    public void Death()
+    {
+        if (is_Death == false)
+        {
+            currentState = null;        // 널로하거나 아이들로 바꾸거나 아예 스크립트를 끄거나.
+            myColider.enabled = false;
+            anim.SetDeath(true);
+
+            GameManager.Instance.GiveEnemyItem();
+            is_Death = true;
+        }
     }
 }

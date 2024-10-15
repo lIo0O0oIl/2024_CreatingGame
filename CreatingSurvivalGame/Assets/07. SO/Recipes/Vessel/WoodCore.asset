@@ -15,4 +15,6 @@ MonoBehaviour:
   needItem:
   - item: {fileID: 11400000, guid: 3cdac34f2ccd8ab429cce9d7ea46c5ee, type: 2}
     count: 10
+  - item: {fileID: 11400000, guid: 97ad4f3d3afe7e8439f47a25965284b8, type: 2}
+    count: 1
   results: {fileID: 11400000, guid: 2c6f2bb4f873e094d83b67d9e40295cf, type: 2}

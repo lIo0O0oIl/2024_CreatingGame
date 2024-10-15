@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-    private PlayerInputs playerInputs;
+    [HideInInspector] public PlayerInputs playerInputs;
     private PlayerAnimation animator;
     private CharacterController characterController;
 
@@ -29,9 +29,10 @@ public class PlayerController : MonoBehaviour
     private float currentPlayerSpeed = 0;
     public float jumpAmount = 2.5f;
 
-    [Header("Actions")]
-    public Action interactAction;
-    public Action<int> selectSlotAction;
+    //[Header("Actions")]
+    public event Action interactAction;
+    public event Action<int> selectSlotAction;
+    public event Action attackAction;
 
     [Header("GroundCheck")]
     [SerializeField] private float groundedOffset = -0.14f;
@@ -63,6 +64,7 @@ public class PlayerController : MonoBehaviour
         playerInputs.Player.Jump.performed += PlayerJump;
         playerInputs.Player.Interact.performed += PlayerInteract;
         playerInputs.Player.SelectSlot.performed += PlayerSelectSlot;
+        playerInputs.Player.Attack.performed += PlayerAttack;
     }
 
     private void OnDisable()
@@ -70,6 +72,7 @@ public class PlayerController : MonoBehaviour
         playerInputs.Player.Jump.performed -= PlayerJump;
         playerInputs.Player.Interact.performed -= PlayerInteract;
         playerInputs.Player.SelectSlot.performed -= PlayerSelectSlot;
+        playerInputs.Player.Attack.performed -= PlayerAttack;
     }
 
 
@@ -200,6 +203,12 @@ public class PlayerController : MonoBehaviour
                 Debug.LogError("뭘 입력받은거야");
                 break;
         }
+    }
+
+    private void PlayerAttack(InputAction.CallbackContext context)
+    {
+        if (is_Ground == false) return;
+        attackAction?.Invoke();
     }
 
     private void CameraRotation()
