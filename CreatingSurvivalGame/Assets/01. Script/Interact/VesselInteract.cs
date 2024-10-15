@@ -16,12 +16,12 @@ public class VesselInteract : MonoBehaviour, IPlayerInteract
         showObj.SetActive(false);
     }
 
-    public void Interact(int slotNum)
+    public bool Interact(int slotNum)
     {
         Debug.Log("확인");
 
         // 이미 된거라면 리턴.
-        if (is_Ok) return;
+        if (is_Ok) return false;
 
         // 인벤토리에서 찾기
         if (GameManager.Instance.InventoryManager.UseItem(needItem, 1))
@@ -31,5 +31,6 @@ public class VesselInteract : MonoBehaviour, IPlayerInteract
             exampleObj.SetActive(false);
             GameManager.Instance.ClearCheck();
         }
+        return true;
     }
 }

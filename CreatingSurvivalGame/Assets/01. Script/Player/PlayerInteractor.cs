@@ -4,7 +4,7 @@ using UnityEngine;
 
 public interface IPlayerInteract
 {
-    void Interact(int slotNum);
+    bool Interact(int slotNum);
 }
 
 public class PlayerInteractor : MonoBehaviour
@@ -14,9 +14,12 @@ public class PlayerInteractor : MonoBehaviour
     [SerializeField] private float yOffset = 1.25f;
     [SerializeField] private float sphereRadius = 0.25f;
     [SerializeField] private LayerMask interactLayer;
+    [SerializeField] private ParticleSystem particle;
     private Collider[] colliderArray = new Collider[1];        // 1개만 받을거임.
+    private Collider[] particleSpawnCollider = new Collider[1];        // 1개만 받을거임.
     private bool is_colliderUse = false;
-    
+    private const float playerHeadY = 1.4f;
+
     private PlayerController playerController;
     private PlayerUseTool playerUseTool;
 
@@ -55,25 +58,37 @@ public class PlayerInteractor : MonoBehaviour
             is_colliderUse = false;
             interactUI.SetActive(false);
         }
-    } 
+    }
 
     private void PlayerInteract()
     {
         Debug.Log("인터렉터");
         if (is_colliderUse)
         {
-            foreach (Collider collider in colliderArray)
+            if (colliderArray[0] != null)
             {
-                if (collider != null)
+                if (colliderArray[0].TryGetComponent(out IPlayerInteract interactInterface))
                 {
-                    if (collider.TryGetComponent(out IPlayerInteract interactInterface))
+                    if (interactInterface.Interact(playerUseTool.currentSelectNum))
                     {
-                        interactInterface.Interact(playerUseTool.currentSelectNum);
-                        return;
+                        // 파티클 생성하기
+                        // 레이 쏴서 해당 구역에 파티클 재생
+                        Vector3 direction = (colliderArray[0].transform.position - transform.position).normalized;
+                        Vector3 playerPos = transform.position;
+                        playerPos.y += playerHeadY;
+                        if (Physics.Raycast(playerPos, direction, out RaycastHit hit, 10, interactLayer))
+                        {
+                            Debug.Log("hihi");
+                            particle.gameObject.transform.position = hit.point;
+                            particle.Play();
+                        }
                     }
+                    return;
                 }
             }
         }
+
+        colliderArray[0] = null;
     }
 
     private void OnDrawGizmosSelected()
