@@ -22,6 +22,8 @@ public class TreeInteract : MonoBehaviour, IPlayerInteract
             Debug.LogError("아이템창 꽉 참");
             return false;
         }
+
+        GameManager.Instance.StatisticsManager.OneAddStatistic(Statistics.Interact);
         return true;
     }
 }

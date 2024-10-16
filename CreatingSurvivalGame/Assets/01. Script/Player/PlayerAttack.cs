@@ -78,6 +78,7 @@ public class PlayerAttack : MonoBehaviour
             if (colliderArray[0].TryGetComponent(out IHitInterface hitInterface))
             {
                 hitInterface.Damage(playerStat.myDamage);
+                GameManager.Instance.StatisticsManager.OneAddStatistic(Statistics.Attack);
             }
         }
 

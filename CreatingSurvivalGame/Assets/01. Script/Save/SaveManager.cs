@@ -8,9 +8,11 @@ using UnityEngine;
 public class SaveData
 {
     public Vector3 playerPos;
+    public int playerHp;
     public bool enemyDie;           // 나중에 확장하려면 배열로 해서 만들기
     public bool[] vesselClear = new bool[3];        // 3개만 있음 현재엔
     public SaveInventorySlot[] saveInventorySlots = new SaveInventorySlot[20];      // 지금 슬롯 20개임.
+    public int[] statistics = new int[(int)Statistics.End];
 }
 
 [Serializable]
@@ -28,12 +30,15 @@ public class SaveManager : MonoBehaviour
 
     // 필요한 스크립트들 가져오기
     [SerializeField] private GameObject playerObj;       // 게임매니져에서 가져와도 됨.
+    private PlayerStat playerStat;       // 게임매니져에서 가져와도 됨.
     [SerializeField] private EnemyManager enemyManager;
     [SerializeField] private InventoryManager inventoryManager;
+    [SerializeField] private StatisticsManager statisticsManager;
     [SerializeField] private VesselInteract[] vessels = new VesselInteract[3];
 
     private void Start()
     {
+        playerStat = playerObj.GetComponent<PlayerStat>();
         savePath = Application.dataPath + "/SaveData";
         if (!Directory.Exists(savePath))
         {
@@ -44,7 +49,8 @@ public class SaveManager : MonoBehaviour
     public void Save()
     {
         saveData.playerPos = playerObj.transform.position;
-        saveData.enemyDie = enemyManager.aiBrains[0];       // 일단 1개니까.
+        saveData.playerHp = playerStat.Currenthp;
+        saveData.enemyDie = enemyManager.aiBrains[0].Is_Death;       // 일단 1개니까.
         for (int i = 0; i < vessels.Length; i++)
         {
             saveData.vesselClear[i] = vessels[i].is_Ok;
@@ -65,6 +71,7 @@ public class SaveManager : MonoBehaviour
                 saveData.saveInventorySlots[i].itemCount = default;
             }
         }
+        saveData.statistics = statisticsManager.GetStatisticsArray();
 
         string json = JsonUtility.ToJson(saveData);
         File.WriteAllText(savePath + "/SaveFile.txt", json);
@@ -82,6 +89,7 @@ public class SaveManager : MonoBehaviour
 
             // 불러온 데이터 기반으로 불러온 데이터 로드.
             playerObj.transform.position = saveData.playerPos;
+            playerStat.SetHp(saveData.playerHp);
             if (saveData.enemyDie) enemyManager.EnemyDie(0);        // 일단 한마리니까.
             for (int i = 0; i < saveData.vesselClear.Length; i++)
             {
@@ -96,6 +104,7 @@ public class SaveManager : MonoBehaviour
                     inventoryManager.LoadAndSpawnItem(loadItem, itemSlotInfo.itemCount, i);
                 }
             }
+            statisticsManager.LoadStatistics(saveData.statistics);
         }
         else Debug.LogError("저장 파일 없음");
     }

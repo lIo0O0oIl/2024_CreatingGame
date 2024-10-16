@@ -15,6 +15,7 @@ public class AIBrain : MonoBehaviour
     private BoxCollider myColider;
 
     private bool is_Death = false;
+    public bool Is_Death => is_Death;
 
     private void Awake()
     {

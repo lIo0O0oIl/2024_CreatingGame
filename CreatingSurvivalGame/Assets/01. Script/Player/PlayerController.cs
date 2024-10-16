@@ -183,11 +183,13 @@ public class PlayerController : MonoBehaviour
         if (is_Ground == false) return;
         verticalVelocity = jumpAmount;
         animator.SetJump(true);
+        GameManager.Instance.StatisticsManager.OneAddStatistic(Statistics.Jump);
     }
 
     private void PlayerInteract(InputAction.CallbackContext context)
     {
-        interactAction?.Invoke();
+        if (interactAction == null) return;
+        interactAction.Invoke();
     }
 
     private void PlayerSelectSlot(InputAction.CallbackContext context)

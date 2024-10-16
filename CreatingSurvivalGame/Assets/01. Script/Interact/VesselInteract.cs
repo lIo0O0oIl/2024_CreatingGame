@@ -27,6 +27,7 @@ public class VesselInteract : MonoBehaviour, IPlayerInteract
         if (GameManager.Instance.InventoryManager.UseItem(needItem, 1))
         {
             VesselClear();
+            GameManager.Instance.StatisticsManager.OneAddStatistic(Statistics.Interact);
             return true;
         }
         return false;

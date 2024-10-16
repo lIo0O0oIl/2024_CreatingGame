@@ -49,6 +49,8 @@ public class GameManager : MonoBehaviour
     private EnemyManager enemyManager;
     private InventoryManager inventoryManager;
     public InventoryManager InventoryManager => inventoryManager;
+    private StatisticsManager statisticsManager;
+    public StatisticsManager StatisticsManager => statisticsManager;        // 구조 바꾸기. 너무 종속성이 강함.
 
     [SerializeField] private ItemSO[] giveEnemyItem;
 
@@ -65,6 +67,7 @@ public class GameManager : MonoBehaviour
     {
         enemyManager = GetComponent<EnemyManager>();
         inventoryManager = GetComponent<InventoryManager>();
+        statisticsManager = GetComponent<StatisticsManager>();
         if (playerController == null) { Debug.Log("플레이어 컨트롤러 없음"); }
 
         wait = new WaitForSeconds(gameOverDelayTime);

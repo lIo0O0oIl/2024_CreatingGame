@@ -66,22 +66,11 @@ public class PlayerAnimation : MonoBehaviour
     private void OnFootstep(AnimationEvent animationEvent)
     {
         Debug.Log("발소리 출력");
-/*        if (animationEvent.animatorClipInfo.weight > 0.5f)
-        {
-            if (FootstepAudioClips.Length > 0)
-            {
-                var index = Random.Range(0, FootstepAudioClips.Length);
-                AudioSource.PlayClipAtPoint(FootstepAudioClips[index], transform.TransformPoint(_controller.center), FootstepAudioVolume);
-            }
-        }*/
+        GameManager.Instance.StatisticsManager.OneAddStatistic(Statistics.Walk);
     }
 
     private void OnLand(AnimationEvent animationEvent)
     {
-        Debug.Log("착지 소리 출력");
-/*        if (animationEvent.animatorClipInfo.weight > 0.5f)
-        {
-            AudioSource.PlayClipAtPoint(LandingAudioClip, transform.TransformPoint(_controller.center), FootstepAudioVolume);
-        }*/
+        Debug.Log("착지 소리 출력");      // 안쓸건데 애니메이션에 있어서 해둠.
     }
 }

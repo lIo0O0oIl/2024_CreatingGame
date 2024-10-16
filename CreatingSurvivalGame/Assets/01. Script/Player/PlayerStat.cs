@@ -10,6 +10,7 @@ public class PlayerStat : MonoBehaviour, IHitInterface
     public int myDamage => damage;
     [SerializeField] private int maxHp = 100;
     private int currentHp;
+    public int Currenthp => currentHp;
 
     [Header("Show")]
     [SerializeField] private GameObject hpbar;
@@ -24,9 +25,18 @@ public class PlayerStat : MonoBehaviour, IHitInterface
         currentHp = maxHp;
     }
 
+    public void SetHp(int hp)
+    {
+        currentHp = hp;
+        hpbar.transform.localScale = new Vector3(currentHp * 0.01f, 1, 1);
+        hpbarText.text = $"{currentHp}/{maxHp}";
+    }
+
     public void Damage(int damge)
     {
         currentHp -= damge;
+
+        GameManager.Instance.StatisticsManager.OneAddStatistic(Statistics.Hit);
 
         if (currentHp <= 0)
         {
