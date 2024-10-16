@@ -26,11 +26,17 @@ public class VesselInteract : MonoBehaviour, IPlayerInteract
         // 인벤토리에서 찾기
         if (GameManager.Instance.InventoryManager.UseItem(needItem, 1))
         {
-            is_Ok = true;
-            showObj.SetActive(true);
-            exampleObj.SetActive(false);
-            GameManager.Instance.ClearCheck();
+            VesselClear();
+            return true;
         }
-        return true;
+        return false;
+    }
+
+    public void VesselClear()
+    {
+        is_Ok = true;
+        showObj.SetActive(true);
+        exampleObj.SetActive(false);
+        GameManager.Instance.ClearCheck();
     }
 }

@@ -56,6 +56,9 @@ public class PlayerController : MonoBehaviour
         animator = GetComponent<PlayerAnimation>();
         characterController = GetComponent<CharacterController>();
         playerInputs = new PlayerInputs();
+
+        //transform.position = new Vector3(-8.63f, 0.0399f, 3.117f);
+        Debug.Log(transform.position);
     }
 
     private void OnEnable()
@@ -132,10 +135,13 @@ public class PlayerController : MonoBehaviour
             playerSpeed = 0.0f;     // 속도 없음.
         }
 
-        Vector3 moveDirection = Quaternion.Euler(0.0f, targetRotation, 0.0f) * Vector3.forward;
-        moveVelocity = moveDirection * (playerSpeed * Time.deltaTime);
-        moveVelocity.y = verticalVelocity * Time.deltaTime;
-        characterController.Move(moveVelocity);     // 움직임 적용
+        if (targetRotation != 0)
+        {
+            Vector3 moveDirection = Quaternion.Euler(0.0f, targetRotation, 0.0f) * Vector3.forward;
+            moveVelocity = moveDirection * (playerSpeed * Time.deltaTime);
+            moveVelocity.y = verticalVelocity * Time.deltaTime;
+            characterController.Move(moveVelocity);     // 움직임 적용
+        }
 
         currentPlayerSpeed = Mathf.Lerp(currentPlayerSpeed, playerSpeed, Time.deltaTime * 10);      // 애니메이션 전용
         if (currentPlayerSpeed < 0.01f) currentPlayerSpeed = 0f;

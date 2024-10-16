@@ -5,8 +5,9 @@ using UnityEngine;
 public class InventoryManager : MonoBehaviour
 {
     [SerializeField] private int maxStackItem = 64;
-    [SerializeField] private InventorySlot[] inventorySlots;
+    public InventorySlot[] inventorySlots;
     [SerializeField] private GameObject inventoryItemPrefab;
+    [SerializeField] private ItemSO[] allItemArray;
 
     [Header("Editor")]
     public ItemSO commandAddItem;
@@ -16,7 +17,7 @@ public class InventoryManager : MonoBehaviour
 #if UNITY_EDITOR
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            AddItem(commandAddItem);
+            if (commandAddItem != null) AddItem(commandAddItem);
         }
 #endif
     }
@@ -29,7 +30,7 @@ public class InventoryManager : MonoBehaviour
             InventoryItem itemInSlot = inventorySlots[i].GetComponentInChildren<InventoryItem>();
             if (itemInSlot == null && emptySlot == null)
             {
-                emptySlot = inventorySlots[i];
+                emptySlot = inventorySlots[i];      // 비어있는 가장 빠른 슬롯
             }
             else if (itemInSlot != null && itemInSlot.item == item && itemInSlot.count < maxStackItem && itemInSlot.item.stackable)
             {
@@ -46,14 +47,14 @@ public class InventoryManager : MonoBehaviour
         return false;
     }
 
-    private void SpawnNewItem(ItemSO item, InventorySlot slot)
+    private void SpawnNewItem(ItemSO item, InventorySlot slot)      // 아이템 직접 생성
     {
         GameObject newItem = Instantiate(inventoryItemPrefab, slot.transform);
         InventoryItem inventoryItem = newItem.GetComponent<InventoryItem>();
         inventoryItem.InitItem(item);
     }
 
-    public int ItemCoundCheck(ItemSO findItem)
+    public int ItemCoundCheck(ItemSO findItem)      // 아이템 개수 가져오기
     {
         int count = 0;
         foreach (InventorySlot slot in inventorySlots)
@@ -68,7 +69,7 @@ public class InventoryManager : MonoBehaviour
         return count;
     }
 
-    public bool UseItem(ItemSO useItem, int count)
+    public bool UseItem(ItemSO useItem, int count)      // 아이템 사용하기
     {
         bool useOk = false;
 
@@ -93,5 +94,25 @@ public class InventoryManager : MonoBehaviour
         }
 
         return useOk;
+    }
+
+    public void LoadAndSpawnItem(ItemSO item, int count, int slotIndex)
+    {
+        GameObject loadItem = Instantiate(inventoryItemPrefab, inventorySlots[slotIndex].transform);
+        InventoryItem inventoryItem = loadItem.GetComponent<InventoryItem>();
+        inventoryItem.InitItem(item, count);
+    }
+
+    public ItemSO GetLoadItemFind(string name)       // 아이템 로드 할려고
+    {
+        foreach (ItemSO item in allItemArray)
+        {
+            if (item.itemName == name)
+            {
+                return item;
+            }
+        }
+
+        return null;
     }
 }

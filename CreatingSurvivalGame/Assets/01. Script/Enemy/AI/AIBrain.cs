@@ -48,7 +48,7 @@ public class AIBrain : MonoBehaviour
         currentState?.UpdateState();
     }
 
-    public void Death()
+    public void Death(bool is_ItemGive = true)
     {
         if (is_Death == false)
         {
@@ -56,7 +56,7 @@ public class AIBrain : MonoBehaviour
             myColider.enabled = false;
             anim.SetDeath(true);
 
-            GameManager.Instance.GiveEnemyItem();
+            if (is_ItemGive == true) GameManager.Instance.GiveEnemyItem();
             is_Death = true;
         }
     }

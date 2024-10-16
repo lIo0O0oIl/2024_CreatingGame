@@ -22,9 +22,10 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         }
     }
 
-    public void InitItem(ItemSO newItem)
+    public void InitItem(ItemSO newItem, int newCount = 1)
     {
         item = newItem;
+        count = newCount;
         myImage.sprite = item.sprite;
         RefreshCount();
     }
